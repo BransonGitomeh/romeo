@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>semantic blog :-)</title>
+    <link rel="stylesheet" href="./deps/semantic.min.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <h1>Welcome to semantic ui</h1>
+    <script src="./deps/jquery.min.js" charset="utf-8"></script>
+    <script src="./deps/semantic.min.js" charset="utf-8"></script>
+    <script src="./deps/mithril.min.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="./app/user_list.js"></script>
+    <script type="text/javascript" src="./app/posts_list.js"></script>
+    <script type="text/javascript">
+      m.route(document.body, "/", {
+         "/": user_list,
+         "/posts/:userid": posts_list
+      })
+    </script>
+  </body>
+</html>
