@@ -8,10 +8,14 @@ of the services underneath
 
 var seneca = require('seneca')();
 
-var client = seneca.client(8081)
+seneca.client({
+	port:8081,
+	pin:'role:user'
+})
+
 var koaBody = require('koa-body')()
 
-// $ call the workers from the clients
+// $ call the workers from the senecas
 module.exports = function(router){
     // $ setup the router to respond with a html file
 	router.all('/', function *(next) {
@@ -26,7 +30,7 @@ module.exports = function(router){
 		//make a thunk around seneca action
 		function queryThunk(){
 			return function(callback){
-				client.act({
+				seneca.act({
 			  	  role:"user",
 				  cmd:"create",
 				  userid:self.request.body.first_name + Math.random(),
@@ -49,7 +53,7 @@ module.exports = function(router){
 
 		function finderthunk(){
 			return function(callback){
-				client.act("role:user, cmd:find",function(err, responce){
+				seneca.act("role:user, cmd:find",function(err, responce){
 				  if(err) throw err
 				  callback(err,responce)
 				})
@@ -66,7 +70,7 @@ module.exports = function(router){
 
 		function finderthunk(){
 			return function(callback){
-				client.act("role:user, cmd:deleteOne, userid:" + this.params.userid,function(err, responce){
+				seneca.act("role:user, cmd:deleteOne, userid:" + this.params.userid,function(err, responce){
 				  if(err) throw err
 				  // console.log(responce.result.rows)
 				  callback(err,responce)
